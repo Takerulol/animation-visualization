@@ -59,9 +59,9 @@ public class Main {
 			glLoadIdentity();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
-			glColor3f(1, 0, 0);
+//			glColor3f(1, 0, 0);
 			r += 1f;
-			Vector3f v = new Vector3f(50,r,0);
+			Vector3f v = new Vector3f(r,-r,0);
 			DISPLAY_LIST.get(0).setRotation(v);
 			//draw all objects
 			for(AbstractGeometry g : DISPLAY_LIST) {
@@ -88,66 +88,63 @@ public class Main {
 	}
 
 	private static void initGL() {
-		glViewport(0, 0, 800, 600);
+		float[] lp1f = { 100, 50, 100,  0};
+		float[] lp2f = { -50, 50, -100,  0};
+		float[] fullf = { .5f,  .5f,  .5f,  1};
+		float[] redf = { 1.0f,  .8f,  .8f,  1};
+		float[] bluef = { .8f,  .8f,  1.0f,  1};
+		float[] zerof = {  0,   0,   0,  1};
+		
+		FloatBuffer lp1 = BufferUtils.createFloatBuffer(4).put(lp1f);
+		FloatBuffer lp2 = BufferUtils.createFloatBuffer(4).put(lp2f);
+		FloatBuffer full = BufferUtils.createFloatBuffer(4).put(fullf);
+		FloatBuffer red = BufferUtils.createFloatBuffer(4).put(redf);
+		FloatBuffer blue = BufferUtils.createFloatBuffer(4).put(bluef);
+		FloatBuffer zero = BufferUtils.createFloatBuffer(4).put(zerof);
+		lp1.flip();
+		lp2.flip();
+		full.flip();
+		red.flip();
+		blue.flip();
+		zero.flip();
+		
+
 		glEnable( GL_DEPTH_TEST);
 		glDepthFunc( GL_LESS);
+		glClearColor(1,1,1,1);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glShadeModel( GL_SMOOTH);
+		//glShadeModel( GL_FLAT);
+		glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, 1);
+		glEnable( GL_LIGHTING);
+
+		glLight( GL_LIGHT1, GL_POSITION, lp1);
+		glLight( GL_LIGHT1, GL_DIFFUSE,  red);
+		glLight( GL_LIGHT1, GL_SPECULAR, red);
+		//glLighti( GL_LIGHT1, GL_CONSTANT_ATTENUATION, 1);
+		//glLighti( GL_LIGHT1, GL_LINEAR_ATTENUATION, 0);
+		//glLighti( GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 0);
+		glEnable( GL_LIGHT1);
+
+		glLight( GL_LIGHT2, GL_POSITION, lp2);
+		glLight( GL_LIGHT2, GL_DIFFUSE,  blue);
+		glLight( GL_LIGHT2, GL_SPECULAR, blue);
+		//glLighti( GL_LIGHT2, GL_CONSTANT_ATTENUATION, 1);
+		//glLighti( GL_LIGHT2, GL_LINEAR_ATTENUATION, 0);
+		//glLighti( GL_LIGHT2, GL_QUADRATIC_ATTENUATION, 0);
+		glEnable( GL_LIGHT2);
+
+		//glEnable( GL_ALPHA_TEST);
+		//glEnable( GL_BLEND);
+		//glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
+		glViewport(0, 0, 800, 600);
 		glMatrixMode( GL_PROJECTION);
 		glLoadIdentity();
-		//glFrustum( -10, 10, -8, 8, 2, 20);
 		GLU.gluPerspective(60, 1, 2, 20);
 		glMatrixMode( GL_MODELVIEW);
 		glShadeModel(GL_SMOOTH);
-//		
-//		float[] lp1f = { 10, 5, 10,  0};
-//		float[] lp2f = { -5, 5, -10,  0};
-//		float[] fullf = { .5f,  .5f,  .5f,  1};
-//		float[] redf = { 1.0f,  .8f,  .8f,  1};
-//		float[] bluef = { .8f,  .8f,  1.0f,  1};
-//		float[] zerof = {  0,   0,   0,  1};
-//		
-//		FloatBuffer lp1 = BufferUtils.createFloatBuffer(4).put(lp1f);
-//		FloatBuffer lp2 = BufferUtils.createFloatBuffer(4).put(lp2f);
-//		FloatBuffer full = BufferUtils.createFloatBuffer(4).put(fullf);
-//		FloatBuffer red = BufferUtils.createFloatBuffer(4).put(redf);
-//		FloatBuffer blue = BufferUtils.createFloatBuffer(4).put(bluef);
-//		FloatBuffer zero = BufferUtils.createFloatBuffer(4).put(zerof);
-//		lp1.flip();
-//		lp2.flip();
-//		full.flip();
-//		red.flip();
-//		blue.flip();
-//		zero.flip();
-//		
-//
-//		glEnable( GL_DEPTH_TEST);
-//		glDepthFunc( GL_LESS);
-//		glClearColor(1,1,1,1);
-//		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//
-//		glShadeModel( GL_SMOOTH);
-//		//glShadeModel( GL_FLAT);
-//		glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, 1);
-//		glEnable( GL_LIGHTING);
-//
-//		glLight( GL_LIGHT1, GL_POSITION, lp1);
-//		glLight( GL_LIGHT1, GL_DIFFUSE,  red);
-//		glLight( GL_LIGHT1, GL_SPECULAR, red);
-//		//glLighti( GL_LIGHT1, GL_CONSTANT_ATTENUATION, 1);
-//		//glLighti( GL_LIGHT1, GL_LINEAR_ATTENUATION, 0);
-//		//glLighti( GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 0);
-//		glEnable( GL_LIGHT1);
-//
-//		glLight( GL_LIGHT2, GL_POSITION, lp2);
-//		glLight( GL_LIGHT2, GL_DIFFUSE,  blue);
-//		glLight( GL_LIGHT2, GL_SPECULAR, blue);
-//		//glLighti( GL_LIGHT2, GL_CONSTANT_ATTENUATION, 1);
-//		//glLighti( GL_LIGHT2, GL_LINEAR_ATTENUATION, 0);
-//		//glLighti( GL_LIGHT2, GL_QUADRATIC_ATTENUATION, 0);
-//		glEnable( GL_LIGHT2);
-//
-//		//glEnable( GL_ALPHA_TEST);
-//		//glEnable( GL_BLEND);
-//		//glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 		glClearColor(0, 0, 0, 1);
 	}

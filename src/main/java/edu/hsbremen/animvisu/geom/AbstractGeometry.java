@@ -46,7 +46,7 @@ public abstract class AbstractGeometry {
 			glRotatef(rotation.y,0,1,0);
 			glRotatef(rotation.z,0,0,1);
 			setGlMaterialColor(1,colorFront.x,colorFront.y,colorFront.z);
-			setGlMaterialColor(1,colorBack.x,colorBack.y,colorBack.z);
+			setGlMaterialColor(2,colorBack.x,colorBack.y,colorBack.z);
 			glCallList(list);
 		glPopMatrix();
 	}
@@ -78,13 +78,14 @@ public abstract class AbstractGeometry {
 		}
 		
 		FloatBuffer ambBuf = BufferUtils.createFloatBuffer(4);
-		ambBuf.put(amb).flip();
+		ambBuf.put(amb);
+		ambBuf.flip();
 		
 		FloatBuffer difBuf = BufferUtils.createFloatBuffer(4);
-		ambBuf.put(dif).flip();
+		difBuf.put(dif).flip();
 		
 		FloatBuffer speBuf = BufferUtils.createFloatBuffer(4);
-		ambBuf.put(spe).flip();
+		speBuf.put(spe).flip();
 		
 		glMaterial( mat, GL_AMBIENT, ambBuf);
 		glMaterial( mat, GL_DIFFUSE, difBuf);
