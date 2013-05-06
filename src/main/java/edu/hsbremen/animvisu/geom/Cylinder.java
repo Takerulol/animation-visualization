@@ -6,7 +6,6 @@ package edu.hsbremen.animvisu.geom;
 
 import edu.hsbremen.animvisu.util.VectorUtil;
 import static org.lwjgl.opengl.GL11.*;
-import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -26,7 +25,6 @@ public class Cylinder extends AbstractGeometry {
 
         Vector3f m1 = new Vector3f(0,1,0);        
         Vector3f m2 = new Vector3f(0,-1,0);
-        float radius = 1;
         
         Vector3f p11;
         Vector3f p12;

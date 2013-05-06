@@ -16,7 +16,6 @@ import edu.hsbremen.animvisu.geom.AbstractGeometry;
 import edu.hsbremen.animvisu.geom.Cube;
 import edu.hsbremen.animvisu.geom.Cylinder;
 import edu.hsbremen.animvisu.geom.Pyramid;
-import edu.hsbremen.animvisu.util.VectorUtil;
 
 public class Main {
 
@@ -24,17 +23,17 @@ public class Main {
 	
 	
 	private static void initObjects() {
-//		Pyramid p = new Pyramid();
-//		p.setPosition(0, 0, -2);
-//		addGeom(p);
+		Pyramid p = new Pyramid();
+		p.setPosition(-2, 0, -2);
+		addGeom(p);
 		
-//		Cube c = new Cube();
-//		c.setPosition(0, 0, -5);
-//		addGeom(c);
-		
-		Cylinder c = new Cylinder();
-		c.setPosition(0, 0, -5);
+		Cube c = new Cube();
+		c.setPosition(3, 0, -5);
 		addGeom(c);
+		
+		Cylinder ci = new Cylinder();
+		ci.setPosition(0, 0, -5);
+		addGeom(ci);
 	}
 	
 	/**
@@ -53,33 +52,28 @@ public class Main {
 		//initialize all given objects
 		initObjects();
 		
+		glMatrixMode(GL_PROJECTION);
+		glTranslatef(0, 0, -5);
+		glMatrixMode(GL_MODELVIEW);
+		
 		float r = 0;
+		float r2 = 0;
+		float r3 = 0;
 		
 		while(true) {
 			glLoadIdentity();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
-//			glColor3f(1, 0, 0);
 			r += 1f;
-			Vector3f v = new Vector3f(r,-r,0);
-			DISPLAY_LIST.get(0).setRotation(v);
+			r2 +=  .1;
+			r3 -= -.5;
+			Vector3f v = new Vector3f(r,r2,r3);
 			//draw all objects
 			for(AbstractGeometry g : DISPLAY_LIST) {
+				g.setRotation(v);
 				g.draw();
 			}
 			
-//			glScalef(5,5,1);
-//			glTranslatef(0, 0, -4);
-//			glRotatef(r, 0, r, 0);
-//			
-			
-			glBegin(GL_QUADS);
-				glVertex3f(1, 1, 0);
-				glVertex3f(1, -1, 0);
-				glVertex3f(-1, -1, 0);
-				glVertex3f(-1, 1, 0);
-			glEnd();
-
 			Display.sync(60);
 			Display.update();
 			if(Display.isCloseRequested()) break;

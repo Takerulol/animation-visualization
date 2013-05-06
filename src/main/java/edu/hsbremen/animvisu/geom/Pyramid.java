@@ -57,15 +57,15 @@ public class Pyramid extends AbstractGeometry {
 			normal = VectorUtil.createNormal(p2,p3,p4);
 			glNormal3f(normal.x,normal.y,normal.z);
 			glVertex3f(1,-1,1);
-			glVertex3f(1,-1,-1);
 			glVertex3f(-1,-1,-1);
+			glVertex3f(1,-1,-1);
+			
 	
 			normal = VectorUtil.createNormal(p4,p5,p2);
 			glNormal3f(normal.x,normal.y,normal.z);
 			glVertex3f(-1,-1,-1);
-			glVertex3f(-1,-1,1);
 			glVertex3f(1,-1,1);
-
+			glVertex3f(-1,-1,1);
 		glEnd();
 	}
 
