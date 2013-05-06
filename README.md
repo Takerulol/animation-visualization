@@ -1,7 +1,7 @@
 animation-visualization
 =======================
 
-Sommersemester 2013 - Übungsaufgaben in OpenGL
+KSS Sommersemester 2013 - Übungsaufgaben in OpenGL
 
 
 Nutzungshinweise
