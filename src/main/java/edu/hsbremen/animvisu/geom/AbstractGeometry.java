@@ -11,14 +11,16 @@ public abstract class AbstractGeometry {
 	
 	private Vector3f position, rotation,colorFront,colorBack;
 	private float size;
-	private int list;
+	public int list;
 	
 	
 	public AbstractGeometry() {
 		setPosition(new Vector3f());
 		setRotation(new Vector3f());
 		colorFront = new Vector3f();
+		colorFront.set(1, 0, 0);
 		colorBack = new Vector3f();
+		colorBack.set(0, 0, 1);
 		setSize(1f);
 		init();
 	}
@@ -36,15 +38,17 @@ public abstract class AbstractGeometry {
 	}
 
 	public final void draw() {
-		glLoadIdentity();
-		glScalef(size,size,size);
-		glRotatef(rotation.x,1,0,0);
-		glRotatef(rotation.y,0,1,0);
-		glRotatef(rotation.z,0,0,1);
-		glTranslatef(position.x,position.y,position.z);
-		setGlMaterialColor(1,colorFront.x,colorFront.y,colorFront.z);
-		setGlMaterialColor(1,colorBack.x,colorBack.y,colorBack.z);
-		glCallList(list);
+		glPushMatrix();
+			glLoadIdentity();
+			glScalef(size,size,size);
+			glTranslatef(position.x,position.y,position.z);
+			glRotatef(rotation.x,1,0,0);
+			glRotatef(rotation.y,0,1,0);
+			glRotatef(rotation.z,0,0,1);
+			setGlMaterialColor(1,colorFront.x,colorFront.y,colorFront.z);
+			setGlMaterialColor(1,colorBack.x,colorBack.y,colorBack.z);
+			glCallList(list);
+		glPopMatrix();
 	}
 
 	private void setGlMaterialColor( int side, float r, float g, float b) {
@@ -57,11 +61,16 @@ public abstract class AbstractGeometry {
 		dif[0] = r;
 		dif[1] = g;
 		dif[2] = b;
+		
+		//System.out.println(r+"+"+g+"+"+b);
+		
 		for( i=0; i<3; i++){
 			amb[i] = .1f * dif[i];
 			spe[i] = .5f;
 		}
-		amb[3] = dif[3] = spe[3] = 1.0f;
+		amb[3] = 1.0f;
+		dif[3] = 1.0f;
+		spe[3] = 1.0f;
 		switch( side){
 			case 1:	mat = GL_FRONT; break;
 			case 2:	mat = GL_BACK; break;
