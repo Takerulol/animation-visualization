@@ -24,6 +24,11 @@ public class Cylinder extends AbstractGeometry {
         this.triangleCount = 20;
     }
     
+    public Cylinder(int triangleCount) {
+        super();
+        this.triangleCount = triangleCount;
+    }
+    
     @Override
     protected void setGeometry() {
 
