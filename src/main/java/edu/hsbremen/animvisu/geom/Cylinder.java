@@ -40,19 +40,18 @@ public class Cylinder extends AbstractGeometry {
             
             for(int i=0; i<triangleCount; i++){
                 //triagle in upper circle
-            	System.out.println((float)Math.cos(360/triangleCount*i));
-                p11 = new Vector3f((float)Math.cos(360/triangleCount*i),m1.y,(float)Math.sin(360/triangleCount*i));   
-                p12 = new Vector3f((float)Math.cos(360/triangleCount*(i+1)),m1.y,(float)Math.sin(360/triangleCount*(i+1)));
-                normal = VectorUtil.createNormal(p12, m1, p11);
+                p11 = new Vector3f((float)Math.cos((2*Math.PI)/triangleCount*i),m1.y,(float)Math.sin((2*Math.PI)/triangleCount*i));   
+                p12 = new Vector3f((float)Math.cos((2*Math.PI)/triangleCount*(i+1)),m1.y,(float)Math.sin((2*Math.PI)/triangleCount*(i+1)));
+                normal = VectorUtil.createNormal(m1, p12, p11);
                 glNormal3f(normal.x, normal.y, normal.z);
                 glVertex3f(m1.x,m1.y,m1.z);
                 glVertex3f(p11.x,p11.y,p11.z);
                 glVertex3f(p12.x,p12.y,p12.z);
                 
                 //triagle in lower circle
-                p21 = new Vector3f((float)Math.cos(360/triangleCount*i),m2.y,(float)Math.sin(360/triangleCount*i));   
-                p22 = new Vector3f((float)Math.cos(360/triangleCount*(i+1)),m2.y,(float)Math.sin(360/triangleCount*(i+1)));
-                normal = VectorUtil.createNormal(p21, m2, p22);
+                p21 = new Vector3f((float)Math.cos((2*Math.PI)/triangleCount*i),m2.y,(float)Math.sin((2*Math.PI)/triangleCount*i));   
+                p22 = new Vector3f((float)Math.cos((2*Math.PI)/triangleCount*(i+1)),m2.y,(float)Math.sin((2*Math.PI)/triangleCount*(i+1)));
+                normal = VectorUtil.createNormal(m2, p21, p22);
                 glNormal3f(normal.x, normal.y, normal.z);
                 glVertex3f(m2.x,m2.y,m2.z);
                 glVertex3f(p21.x,p21.y,p21.z);
