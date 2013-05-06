@@ -45,8 +45,8 @@ public class Cylinder extends AbstractGeometry {
                 normal = VectorUtil.createNormal(m1, p12, p11);
                 glNormal3f(normal.x, normal.y, normal.z);
                 glVertex3f(m1.x,m1.y,m1.z);
+                glVertex3f(p12.x,p12.y,p12.z);                
                 glVertex3f(p11.x,p11.y,p11.z);
-                glVertex3f(p12.x,p12.y,p12.z);
                 
                 //triagle in lower circle
                 p21 = new Vector3f((float)Math.cos((2*Math.PI)/triangleCount*i),m2.y,(float)Math.sin((2*Math.PI)/triangleCount*i));   
@@ -60,15 +60,15 @@ public class Cylinder extends AbstractGeometry {
                 //walls
                 normal = VectorUtil.createNormal(p22, p11, p12);
                 glNormal3f(normal.x, normal.y, normal.z);
-                glVertex3f(p11.x,p11.y,p11.z);
-                glVertex3f(p22.x,p22.y,p22.z);                
+                glVertex3f(p11.x,p11.y,p11.z);               
                 glVertex3f(p12.x,p12.y,p12.z);
+                glVertex3f(p22.x,p22.y,p22.z); 
                 
                 normal = VectorUtil.createNormal(p11, p22, p21);
                 glNormal3f(normal.x, normal.y, normal.z);
-                glVertex3f(p11.x,p11.y,p11.z);
-                glVertex3f(p21.x,p21.y,p21.z);                
-                glVertex3f(p22.x,p22.y,p22.z);           
+                glVertex3f(p11.x,p11.y,p11.z);               
+                glVertex3f(p22.x,p22.y,p22.z); 
+                glVertex3f(p21.x,p21.y,p21.z);          
                 
             }                    
 
