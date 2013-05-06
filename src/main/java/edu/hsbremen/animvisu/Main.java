@@ -16,24 +16,31 @@ import edu.hsbremen.animvisu.geom.AbstractGeometry;
 import edu.hsbremen.animvisu.geom.Cube;
 import edu.hsbremen.animvisu.geom.Cylinder;
 import edu.hsbremen.animvisu.geom.Pyramid;
+import edu.hsbremen.animvisu.util.SceneFileLoader;
 
 public class Main {
 
 	private static Vector<AbstractGeometry> DISPLAY_LIST = new Vector<AbstractGeometry>();
 	
-	
-	private static void initObjects() {
-		Pyramid p = new Pyramid();
-		p.setPosition(-2, 0, -2);
-		addGeom(p);
-		
-		Cube c = new Cube();
-		c.setPosition(3, 0, -5);
-		addGeom(c);
-		
-		Cylinder ci = new Cylinder();
-		ci.setPosition(0, 0, -5);
-		addGeom(ci);
+	/**
+	 * INIT OBJECTS HERE!!!
+	 */
+	private static void initObjects(String[] args) {
+		//load specific file
+		if (args.length == 2 && args[0].equals("-f")) {
+			DISPLAY_LIST = SceneFileLoader.loadFile(args[1]);
+		}
+//		Pyramid p = new Pyramid();
+//		p.setPosition(-2, 0, -2);
+//		addGeom(p);
+//		
+//		Cube c = new Cube();
+//		c.setPosition(3, 0, -5);
+//		addGeom(c);
+//		
+//		Cylinder ci = new Cylinder();
+//		ci.setPosition(0, 0, -5);
+//		addGeom(ci);
 	}
 	
 	/**
@@ -41,6 +48,8 @@ public class Main {
 	 * @throws LWJGLException 
 	 */
 	public static void main(String[] args) throws LWJGLException {
+
+		//setup display
 		Display.setDisplayMode(new DisplayMode(800, 600));
 		Display.create();
 		
@@ -50,7 +59,7 @@ public class Main {
 		initGL();
 		
 		//initialize all given objects
-		initObjects();
+		initObjects(args);
 		
 		glMatrixMode(GL_PROJECTION);
 		glTranslatef(0, 0, -5);
@@ -64,13 +73,16 @@ public class Main {
 			glLoadIdentity();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
+			//can be used to animate the scene
 			r += 1f;
 			r2 +=  .1;
 			r3 -= -.5;
 			Vector3f v = new Vector3f(r,r2,r3);
+			
 			//draw all objects
 			for(AbstractGeometry g : DISPLAY_LIST) {
-				g.setRotation(v);
+				//uncomment to rotate all objects
+				//g.setRotation(v);
 				g.draw();
 			}
 			
@@ -102,7 +114,6 @@ public class Main {
 		blue.flip();
 		zero.flip();
 		
-
 		glEnable( GL_DEPTH_TEST);
 		glDepthFunc( GL_LESS);
 		glClearColor(1,1,1,1);
@@ -143,6 +154,10 @@ public class Main {
 		glClearColor(0, 0, 0, 1);
 	}
 	
+	/**
+	 * Add geometry to the scene
+	 * @param geom
+	 */
 	private static void addGeom(AbstractGeometry geom) {
 		DISPLAY_LIST.add(geom);
 	}

@@ -134,4 +134,10 @@ public abstract class AbstractGeometry {
 		position.y = y;
 		position.z = z;
 	}
+
+	public void setRotation(float rx, float ry, float rz) {
+		rotation.x = rx;
+		rotation.y = ry;
+		rotation.z = rz;
+	}
 }
