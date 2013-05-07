@@ -20,7 +20,7 @@ import edu.hsbremen.animvisu.util.SceneFileLoader;
 
 public class Main {
 
-	private static Vector<AbstractGeometry> DISPLAY_LIST = new Vector<AbstractGeometry>();
+	private static Vector<AbstractGeometry> GEOMETRY_LIST = new Vector<AbstractGeometry>();
 	
 	/**
 	 * INIT OBJECTS HERE!!!
@@ -28,7 +28,7 @@ public class Main {
 	private static void initObjects(String[] args) {
 		//load specific file
 		if (args.length == 2 && args[0].equals("-f")) {
-			DISPLAY_LIST = SceneFileLoader.loadFile(args[1]);
+			GEOMETRY_LIST = SceneFileLoader.loadFile(args[1]);
 		}
 //		Pyramid p = new Pyramid();
 //		p.setPosition(-2, 0, -2);
@@ -80,9 +80,9 @@ public class Main {
 			Vector3f v = new Vector3f(r,r2,r3);
 			
 			//draw all objects
-			for(AbstractGeometry g : DISPLAY_LIST) {
+			for(AbstractGeometry g : GEOMETRY_LIST) {
 				//uncomment to rotate all objects
-				//g.setRotation(v);
+				g.setRotation(v);
 				g.draw();
 			}
 			
@@ -159,7 +159,7 @@ public class Main {
 	 * @param geom
 	 */
 	private static void addGeom(AbstractGeometry geom) {
-		DISPLAY_LIST.add(geom);
+		GEOMETRY_LIST.add(geom);
 	}
 
 	
