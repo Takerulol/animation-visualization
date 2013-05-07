@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.Vector;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import edu.hsbremen.animvisu.geom.AbstractGeometry;
 import edu.hsbremen.animvisu.geom.Cube;
 import edu.hsbremen.animvisu.geom.Cylinder;
@@ -28,8 +30,10 @@ public class SceneFileLoader {
 			while((line = b.readLine()) != null) {
 				line = line.trim().replaceAll("\\s+", " ");
 				Scanner s = new Scanner(line);
-				v.add(createModel(s.next(),s.nextFloat(),s.nextFloat(),s.nextFloat(),
-						s.nextFloat(),s.nextFloat(),s.nextFloat(),s.nextFloat()));
+				AbstractGeometry geom = createModel(s.next(),s.nextFloat(),s.nextFloat(),s.nextFloat(),
+						s.nextFloat(),s.nextFloat(),s.nextFloat(),s.nextFloat());
+				if (s.hasNext()) setColor(geom,s.nextFloat(),s.nextFloat(),s.nextFloat(),s.nextFloat(),s.nextFloat(),s.nextFloat());
+				v.add(geom);
 				s.close();
 			}
 			
@@ -46,6 +50,14 @@ public class SceneFileLoader {
 		
 		
 		return v;
+	}
+
+	private static void setColor(AbstractGeometry geom, float c1x,
+			float c1y, float c1z, float c2x,
+			float c2y, float c2z) {
+		
+		geom.setColorFront(new Vector3f(c1x, c1y, c1z));
+		geom.setColorBack(new Vector3f(c2x, c2y, c2z));
 	}
 
 	private static AbstractGeometry createModel(String type, float x, float y, float z,
