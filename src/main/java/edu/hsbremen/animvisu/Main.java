@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
@@ -21,6 +22,10 @@ import edu.hsbremen.animvisu.util.SceneFileLoader;
 public class Main {
 
 	private static Vector<AbstractGeometry> GEOMETRY_LIST = new Vector<AbstractGeometry>();
+	private static int mx,my,mdx,mdy;
+	private static float rx,ry,rxt,ryt;
+	private static int zoom = -8;
+	private static boolean mouseInit = true;
 	
 	/**
 	 * INIT OBJECTS HERE!!!
@@ -62,7 +67,7 @@ public class Main {
 		initObjects(args);
 		
 		glMatrixMode(GL_PROJECTION);
-		glTranslatef(0, 0, -5);
+		glTranslatef(0, 0, zoom);
 		glMatrixMode(GL_MODELVIEW);
 		
 		float r = 0;
@@ -73,6 +78,8 @@ public class Main {
 			glLoadIdentity();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
+			readInputs();			
+			
 			//can be used to animate the scene
 			r += 1f;
 			r2 +=  .1;
@@ -82,7 +89,7 @@ public class Main {
 			//draw all objects
 			for(AbstractGeometry g : GEOMETRY_LIST) {
 				//uncomment to rotate all objects
-				g.setRotation(v);
+//				g.setRotation(v);
 				g.draw();
 			}
 			
@@ -92,6 +99,47 @@ public class Main {
 		}
 		Display.destroy();
 	}
+
+	private static void readInputs() {
+		if(!Mouse.isButtonDown(0)) mouseInit = true;
+		zoom += Mouse.getDWheel()/100;
+		if(mouseInit && Mouse.isButtonDown(0)) {
+			mx = Mouse.getX();
+			my = Mouse.getY();
+			mdx = 0;
+			mdy = 0;
+			rxt = rx;
+			ryt = ry;
+			mouseInit = false;
+		} else if (Mouse.isButtonDown(0)) {
+			mdx = mx - Mouse.getX();
+			mdy = my - Mouse.getY();
+			
+			ry = ryt + mdx;
+			rx = rxt + mdy;
+			
+			//continuous turning
+//			rx += mdy/5;
+//			ry += mdx/5;
+			
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			GLU.gluPerspective(60, 1, 2, 20);
+			
+			glTranslatef(0, 0, zoom);
+			glRotatef(rx, 1, 0, 0);
+			glRotatef(ry, 0, 1, 0);
+
+//			float eyex = (float) ( Math.sin(rx/180*Math.PI) * Math.sin(ry/180*Math.PI)) * zoom;
+//			float eyey = (float) -Math.cos(rx/180*Math.PI) * zoom;
+//			float eyez = (float) ( Math.sin(rx/180*Math.PI) * Math.cos(ry/180*Math.PI)) * zoom;
+//			GLU.gluLookAt(eyex, eyey, eyez, 0, 0, 0, 0, 1, 0);
+			
+			glMatrixMode(GL_MODELVIEW);
+		}
+	}
+	
+	
 
 	private static void initGL() {
 		float[] lp1f = { 100, 50, 100,  0};
@@ -120,7 +168,7 @@ public class Main {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glShadeModel( GL_SMOOTH);
-		//glShadeModel( GL_FLAT);
+//		glShadeModel( GL_FLAT);
 		glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, 1);
 		glEnable( GL_LIGHTING);
 
@@ -144,6 +192,8 @@ public class Main {
 		//glEnable( GL_BLEND);
 		//glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
+		glEnable(GL_NORMALIZE);
+		
 		glViewport(0, 0, 800, 600);
 		glMatrixMode( GL_PROJECTION);
 		glLoadIdentity();
@@ -152,6 +202,11 @@ public class Main {
 		glShadeModel(GL_SMOOTH);
 		
 		glClearColor(0, 0, 0, 1);
+		
+		mx = 0;
+		my = 0;
+		mdx = 0;
+		mdy = 0;
 	}
 	
 	/**

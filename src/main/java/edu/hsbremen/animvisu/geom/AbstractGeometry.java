@@ -39,7 +39,6 @@ public abstract class AbstractGeometry {
 
 	public final void draw() {
 		glPushMatrix();
-			glLoadIdentity();
 			glScalef(size,size,size);
 			glTranslatef(position.x,position.y,position.z);
 			glRotatef(rotation.x,1,0,0);

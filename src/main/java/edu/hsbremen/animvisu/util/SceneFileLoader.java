@@ -39,10 +39,10 @@ public class SceneFileLoader {
 			
 			b.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("ERROR INTRUDER ALERT!");
+			System.out.println("ERROR INTRUDER ALERT! NO FILE FOUND!");
 			System.exit(1);
 		} catch (IOException e) {
-			System.out.println("ERROR INTRUDER ALERT!");
+			System.out.println("ERROR INTRUDER ALERT! WRONG INPUT!");
 			System.exit(1);
 		}
 		
